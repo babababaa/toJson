@@ -1,0 +1,25 @@
+private string data(string sqltext)
+        {
+            string config = @"Data Source=.;Initial Catalog=test01; Integrated Security=True";
+            using (SqlConnection conn = new SqlConnection(config))
+            {
+                conn.Open();
+                SqlCommand comn = new SqlCommand(sqltext, conn);
+                SqlDataReader reader = comn.ExecuteReader(); //读取数据库数据
+                json = "User:[";
+                while (reader.Read())
+                {//将 数据转成Json
+                    json += "{";
+                    json += "\"" + "sId" + "\":\"" + reader["sId"] + "\",";
+                    json += "\"" + "sName" + "\":\"" + reader["sName"] + "\",";
+                    json += "\"" + "sAge" + "\":\"" + reader["sAge"] + "\",";
+                    json += "\"" + "sSex" + "\":\"" + reader["sSex"] + "\",";
+                    json += "\"" + "sAddress" + "\":\"" + reader["sAddress"] + "\",";
+                    json += "\"" + "sMajor" + "\":\"" + reader["sMajor"] + "\",";
+                    json += "}, ";
+                }
+                json += "]}";
+                reader.Close();
+                return json;
+            }
+        }
